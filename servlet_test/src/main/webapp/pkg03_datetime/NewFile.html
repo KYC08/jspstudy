@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>pkg03_datetime</title>
+</head>
+<body>
+  <div>
+    <select name="datetime">
+      <option value="date">현재날짜</option>
+      <option value="time">현재시간</option>
+    </select>
+    <button id="req" type="button">요청하기</button>
+  </div>
+
+  <script>
+			let today = new Date();
+
+			let year = today.getFullYear(); 
+			let month = today.getMonth() + 1; 
+			let date = today.getDate(); 
+
+			document.write('<br>');
+
+			let hours = today.getHours(); 
+			let minutes = today.getMinutes(); 
+			let seconds = today.getSeconds(); 
+
+      var day = (year + '년 ' + month + '월 ' + date + '일 입니다.')
+			var time = (hours + '시 ' + minutes + '분 ' + seconds + '초 입니다.');
+			
+			document.getElementById('req').addEventListener('click', (evt)=>{
+			    alert(
+			    		
+			    		day + time
+			    		
+			    );
+			});
+			
+		</script>
+
+</body>
+</html>

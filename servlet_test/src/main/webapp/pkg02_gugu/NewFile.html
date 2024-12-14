@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>pkg02_gugu</title>
+</head>
+<body>
+
+  <form id="refresh">
+    <div>
+      <button type="submit">새로고침</button>
+    </div>
+  </form>
+  <br>
+  
+  <form id="cal">
+    <div id="num1" style="display: flex; align-items: center;">
+      <br>
+
+      <div id="num1" style="margin: 0 5px;"></div>
+      <div>X</div>
+      <div id="num2" style="margin: 0 5px;"></div>
+      <div>=</div>
+      <div>
+        <input type="text" name="answer" id="answer"
+          style="margin: 0 5px;">
+      </div>
+      <div class="btn-wrap">
+        <button type="submit">계산</button>
+      </div>
+    </div>
+  </form>
+
+  <script>
+
+  
+function rand(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const num1 = rand(2, 9);
+const num2 = rand(1, 9);
+
+const num3 = num1 * num2;
+
+document.writeln(num1);
+document.writeln(num2);
+
+document.getElementById('cal').addEventListener('submit', (evt)=>{
+    if(answer.value == num3){
+      alert('정답입니다.');
+      return; 
+    } else {
+        alert('오답입니다.');
+        return; 
+    }       
+  });
+  
+document.getElementById('refresh').addEventListener('submit', (evt)=>{
+    location.reload(true);
+    return; 
+});
+
+</script>
+
+</body>
+</html>

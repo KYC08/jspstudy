@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>pkg08_ajax</title>
+<!-- CDN을 이용하기 -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous">
+</script>
+</head>
+<body>
+
+  <div>
+    <button type="button" id="btn1">정보가져오기</button>
+  </div>
+  <table border="1">
+    <tbody id="contents1"></tbody>
+  </table>
+  <script>
+  
+  // XML 데이터 요청
+  
+  const getData1 = ()=>{
+	  // alert("Hello");
+	  
+	  const options = {
+			  method: 'GET'
+	  }
+	  // fetch(): ES6 문법 
+	  fetch('/servlet/getData1', options) // ajax 비동기 처리. fetch 반환값: Promise 객체  
+/* 	   .then((response)=>{ // .then(이행함수(응답데이터), 거부함수(:생략 가능)) 
+		   if(response.ok){
+			   return response.text(); // XML 데이터 요청 
+		   }
+	   })  */
+	   .then(response=>response.text()) // XML 데이터 요청. 위의 코드를 생략하여 작성
+	   .then(resData=>{
+		   // console.log(resData); // XML 데이터 받음.
+		   
+		   // String 타입 resData를 XML Document 로 변경하기 
+		   const domParser = new DOMParser();
+		   const xmlDoc = domParser.parseFromString(resData, 'application/xml');
+		   
+		   // console.log(xmlDoc); // 콘솔에 XML 데이터 띄우기/
+		   
+		   // <tbody id="contents1"></tbody> 
+		   const contents1 = document.getElementById('contents1');
+		   contents1.innerHTML = '';
+		   
+		   // <weather year=""
+		   const weather = xmlDoc.getElementsByTagName('weather')[0];
+		   contents1.innerHTML += '<tr><td colspan="3">'
+			                     + weather.getAttribute('year') + '-'
+			                     + weather.getAttribute('month') + '-'
+			                     + weather.getAttribute('day') + '&nbsp;'
+			                     + weather.getAttribute('hour') + '시</td></tr>';
+			                     
+			 // <local desc="맑음" ta="4.5">속초</local>
+			 const locals = xmlDoc.getElementsByTagName('local');
+			 for (let i = 0; i < locals.length; i++){
+				 let str = '<tr>'; 
+				 str += '<td>' + locals[i].textContent + '</td>'; 
+				 str += '<td>' + locals[i].getAttribute('desc') + '</td>'; 
+				 str += '<td>' + locals[i].getAttribute('ta') + '</td>'; 
+				 str += '</tr>'; 
+				 contents1.innerHTML += str; 
+				 
+			 }
+			 
+	   }) 
+  } 
+  
+  document.getElementById("btn1").addEventListener('click', getData1);
+  
+  </script>
+
+  <hr>
+
+  <div>
+    <button type="button" id="btn2">정보가져오기</button>
+  </div>
+  <table border="1">
+    <thead>
+      <tr>
+        <td>발생일시</td>
+        <td>사망자수</td>
+        <td>부상자수</td>
+      </tr>
+    </thead>
+    <tbody id="contents2"></tbody>
+  </table>
+  <script>
+  
+  const getData2 = ()=>{
+	  // alert('Hola');
+	  $.ajax({
+		  /* 요청 property */
+		  type: 'GET', 
+		  url: '/servlet/getData2', 
+		  /* 응답 property */
+		  dataType: 'json',   // 'xml', 'json' 
+		  		  
+		  /* 
+		  success: (resData)=>{
+		  }, 
+		  error: (jqXHR)=> { 
+		  } 
+		  */
+		  
+	  }).done((resData)=>{
+		  // $.each(배열, 함수(인덱스, 요소){  })
+		  $.each(resData.items.item, (i, elem)=>{ 
+			  let str = '<tr>';
+			  str += '<td>' + elem.occrrnc_dt + '</td>';
+			  str += '<td>' + elem.dth_dnv_cnt + '</td>';
+			  str += '<td>' + elem.injpsn_cnt + '</td>';
+			  str += '</tr>';
+			  $('#contents2').append(str);
+			  
+		  })
+		  console.log(resData);
+		  
+	  }).fail((jqXHR)=>{
+		  
+		  console.log(jqXHR.responseText + '(' + jqXHR.status + ')');
+		  
+	  })
+  }
+  
+  $('#btn2').on('click', getData2);
+  
+  </script>
+
+</body>
+</html>

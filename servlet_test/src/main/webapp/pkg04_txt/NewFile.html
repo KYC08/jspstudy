@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>pkg04_txt</title>
+</head>
+<body>
+
+  <div>
+    작성자 <input type="text">
+  </div>
+
+  <div>
+    제목 <input type="text">
+  </div>
+
+  <div>
+    <textarea cols="50" rows="10" placeholder="내용"></textarea>
+  </div>
+
+  <div>
+    <button id="sub" type=submit>작성완료</button>
+    <button type="reset">작성초기화</button>
+  </div>
+
+  <script>
+
+document.getElementById('sub').addEventListener('click', (evt)=>{
+    alert("파일이 생성되었습니다.");
+});
+
+</script>
+
+</body>
+</html>
